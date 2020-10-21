@@ -312,8 +312,9 @@ public class DefaultHudsonClient implements HudsonClient {
 //        LOG.info("**** GET BuildDetails.buildUtl:{} instanceUrl:{}", buildUrl, instanceUrl);
         try {
             String newUrl = rebuildJobUrl(buildUrl, instanceUrl);
-            LOG.info("**** GET Build.url:{}", newUrl);
+
             String url = joinURL(newUrl, new String[]{BUILD_DETAILS_URL_SUFFIX});
+
             ResponseEntity<String> result = makeRestCall(url);
             String resultJSON = result.getBody();
             if (StringUtils.isEmpty(resultJSON)) {
@@ -384,8 +385,7 @@ public class DefaultHudsonClient implements HudsonClient {
     //does not save the auth user info and we need to add it back.
     public static String rebuildJobUrl(String build, String server) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException {
         URL instanceUrl = new URL(server);
-//        String userInfo = instanceUrl.getUserInfo();
-        String userInfo = "admin:11aa8ea4c70be380dbb521556c205132f5";
+        String userInfo = instanceUrl.getUserInfo();
         String instanceProtocol = instanceUrl.getProtocol();
 	    
 	//decode to handle + in the job name.
@@ -618,7 +618,7 @@ public class DefaultHudsonClient implements HudsonClient {
     
     @SuppressWarnings("PMD")
     protected ResponseEntity<String> makeRestCall(String sUrl) throws URISyntaxException {
-        LOG.debug("Enter makeRestCall " + sUrl);
+        LOG.info("Enter makeRestCall: {}", sUrl);
         URI thisuri = URI.create(sUrl);
         String userInfo = thisuri.getUserInfo();
 
