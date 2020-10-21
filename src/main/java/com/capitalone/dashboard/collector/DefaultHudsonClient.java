@@ -309,9 +309,10 @@ public class DefaultHudsonClient implements HudsonClient {
 
     @Override
     public Build getBuildDetails(String buildUrl, String instanceUrl) {
-        LOG.info("**** GET BuildDetails.buildUtl:{} instanceUrl:{}", buildUrl, instanceUrl);
+//        LOG.info("**** GET BuildDetails.buildUtl:{} instanceUrl:{}", buildUrl, instanceUrl);
         try {
             String newUrl = rebuildJobUrl(buildUrl, instanceUrl);
+            LOG.info("**** GET Build.url:{}", newUrl);
             String url = joinURL(newUrl, new String[]{BUILD_DETAILS_URL_SUFFIX});
             ResponseEntity<String> result = makeRestCall(url);
             String resultJSON = result.getBody();
