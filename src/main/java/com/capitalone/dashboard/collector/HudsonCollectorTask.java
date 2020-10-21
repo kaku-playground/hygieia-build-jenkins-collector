@@ -11,9 +11,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import jdk.internal.jline.internal.Log;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.LogFactory;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.TaskScheduler;
@@ -45,7 +47,7 @@ import com.google.common.collect.Lists;
 @Component
 public class HudsonCollectorTask extends CollectorTask<HudsonCollector> {
     @SuppressWarnings("PMD.UnusedPrivateField")
-//    private static final Log LOG = LogFactory.getLog(HudsonCollectorTask.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HudsonCollectorTask.class);
 
     private final HudsonCollectorRepository hudsonCollectorRepository;
     private final HudsonJobRepository hudsonJobRepository;
@@ -124,7 +126,7 @@ public class HudsonCollectorTask extends CollectorTask<HudsonCollector> {
 
         for (String instanceUrl : collector.getBuildServers()) {
             logBanner(instanceUrl);
-            Log.info("**** InstanceUrl: {}", instanceUrl);
+            LOG.info("**** InstanceUrl: {}", instanceUrl);
             try {
                 Map<HudsonJob, Map<HudsonClient.jobData, Set<BaseModel>>> dataByJob
                         = hudsonClient.getInstanceJobs(instanceUrl);
@@ -324,7 +326,7 @@ public class HudsonCollectorTask extends CollectorTask<HudsonCollector> {
                     job.setEnvironment(environment);
                 }
                 newJobs.add(job);
-                Log.info("**** Add new job: {}", job.getJobUrl());
+                LOG.info("**** Add new job: {}", job.getJobUrl());
                 count++;
             } else {
                 if (StringUtils.isEmpty(existing.getNiceName()) && StringUtils.isNotEmpty(niceName)) {
