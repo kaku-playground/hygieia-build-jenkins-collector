@@ -378,6 +378,7 @@ public class HudsonCollectorTask extends CollectorTask<HudsonCollector> {
 
     private List<HudsonJob> enabledJobs(HudsonCollector collector,
                                         String instanceUrl) {
+        LOG.info("**** Getting enabled job: {}, {}", collector.getId(), instanceUrl);
         return hudsonJobRepository.findEnabledJobs(collector.getId(),
                 instanceUrl);
     }
