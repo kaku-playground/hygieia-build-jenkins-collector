@@ -122,8 +122,6 @@ public class HudsonCollectorTask extends CollectorTask<HudsonCollector> {
 
         clean(collector, existingJobs);
 
-
-
         for (String instanceUrl : collector.getBuildServers()) {
             logBanner(instanceUrl);
             LOG.info("**** InstanceUrl: {}", instanceUrl);
@@ -233,16 +231,21 @@ public class HudsonCollectorTask extends CollectorTask<HudsonCollector> {
             if (job.isPushed()) continue;
             // process new builds in the order of their build numbers - this has implication to handling of commits in BuildEventListener
 
+            LOG.info("**** Check job[{}, {}]'s build", job.getJobName(), job.getJobUrl());
             Map<HudsonClient.jobData, Set<BaseModel>> jobDataSetMap = dataByJob.get(job);
             if (jobDataSetMap == null) {
+                LOG.info("**** Job no-existing");
                 continue;
             }
+
             Set<BaseModel> buildsSet = jobDataSetMap.get(HudsonClient.jobData.BUILD);
+            LOG.info("**** Builds.count: {}", buildsSet.size());
 
             ArrayList<BaseModel> builds = Lists.newArrayList(nullSafe(buildsSet));
 
             builds.sort(Comparator.comparingInt(b -> Integer.valueOf(((Build) b).getNumber())));
             for (BaseModel buildSummary : builds) {
+                LOG.info("**** Build.url:{}", ((Build)buildSummary).getBuildUrl());
                 if (isNewBuild(job, (Build)buildSummary)) {
                     Build build = hudsonClient.getBuildDetails(((Build)buildSummary)
                             .getBuildUrl(), job.getInstanceUrl());

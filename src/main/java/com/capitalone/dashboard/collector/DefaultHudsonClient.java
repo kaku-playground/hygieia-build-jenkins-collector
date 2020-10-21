@@ -123,7 +123,8 @@ public class DefaultHudsonClient implements HudsonClient {
         	
 	        try {
                 String url = joinURL(instanceUrl, new String[]{API_SUFFIX + buildJobQueryString() + URLEncoder.encode("{" + i + "," + (i + pageSize) + "}", "UTF-8")});
-	            ResponseEntity<String> responseEntity = makeRestCall(url);
+	            LOG.info("**** Access URL:{}", url);
+                ResponseEntity<String> responseEntity = makeRestCall(url);
 	            if (responseEntity == null) {
 	            	break;
 	            }
