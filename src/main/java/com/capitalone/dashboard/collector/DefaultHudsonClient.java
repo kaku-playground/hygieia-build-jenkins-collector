@@ -132,6 +132,7 @@ public class DefaultHudsonClient implements HudsonClient {
 	            if (StringUtils.isEmpty(returnJSON)) {
 	            	break;	            	
 	            }
+	            LOG.info("**** RES:\n{}", returnJSON);
 	            JSONParser parser = new JSONParser();
 	            
 	            try {
@@ -148,7 +149,7 @@ public class DefaultHudsonClient implements HudsonClient {
 	                    final String jobURL = getString(jsonJob, "url");
                         final String jobClass = getString(jsonJob, "_class");
 
-                        LOG.debug("Process jobName " + jobName + " jobURL " + jobURL + " jobClass " + jobClass);
+                        LOG.info("Process jobName " + jobName + " jobURL " + jobURL + " jobClass " + jobClass);
 
 	                    recursiveGetJobDetails(jsonJob, jobName, jobURL, instanceUrl, parser, result);
 	                }
