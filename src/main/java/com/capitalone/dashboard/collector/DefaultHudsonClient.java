@@ -309,6 +309,7 @@ public class DefaultHudsonClient implements HudsonClient {
 
     @Override
     public Build getBuildDetails(String buildUrl, String instanceUrl) {
+        LOG.info("**** GET BuildDetails.buildUtl:{} instanceUrl:{}", buildUrl, instanceUrl);
         try {
             String newUrl = rebuildJobUrl(buildUrl, instanceUrl);
             String url = joinURL(newUrl, new String[]{BUILD_DETAILS_URL_SUFFIX});
@@ -382,7 +383,8 @@ public class DefaultHudsonClient implements HudsonClient {
     //does not save the auth user info and we need to add it back.
     public static String rebuildJobUrl(String build, String server) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException {
         URL instanceUrl = new URL(server);
-        String userInfo = instanceUrl.getUserInfo();
+//        String userInfo = instanceUrl.getUserInfo();
+        String userInfo = "admin:11aa8ea4c70be380dbb521556c205132f5";
         String instanceProtocol = instanceUrl.getProtocol();
 	    
 	//decode to handle + in the job name.
