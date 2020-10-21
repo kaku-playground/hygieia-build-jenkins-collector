@@ -111,7 +111,7 @@ public class DefaultHudsonClient implements HudsonClient {
         Map<HudsonJob, Map<jobData, Set<BaseModel>>> result = new LinkedHashMap<>();
         
         int jobsCount = getJobsCount(instanceUrl);
-        LOG.debug("Number of jobs " + jobsCount);
+        LOG.info("Number of jobs " + jobsCount);
         
         int i = 0, pageSize = settings.getPageSize();
         // Default pageSize to 1000 for backward compatibility of settings when pageSize defaults to 0

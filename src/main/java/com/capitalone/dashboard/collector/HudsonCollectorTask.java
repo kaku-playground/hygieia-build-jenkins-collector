@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import jdk.internal.jline.internal.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,11 +120,14 @@ public class HudsonCollectorTask extends CollectorTask<HudsonCollector> {
 
         clean(collector, existingJobs);
 
+
+
         for (String instanceUrl : collector.getBuildServers()) {
             logBanner(instanceUrl);
+            Log.info("**** InstanceUrl: {}", instanceUrl);
             try {
-                Map<HudsonJob, Map<HudsonClient.jobData, Set<BaseModel>>> dataByJob = hudsonClient
-                        .getInstanceJobs(instanceUrl);
+                Map<HudsonJob, Map<HudsonClient.jobData, Set<BaseModel>>> dataByJob
+                        = hudsonClient.getInstanceJobs(instanceUrl);
                 log("Fetched jobs", start);
                 activeJobs.addAll(dataByJob.keySet());
                 addNewJobs(dataByJob.keySet(), existingJobs, collector);
@@ -320,6 +324,7 @@ public class HudsonCollectorTask extends CollectorTask<HudsonCollector> {
                     job.setEnvironment(environment);
                 }
                 newJobs.add(job);
+                Log.info("**** Add new job: {}", job.getJobUrl());
                 count++;
             } else {
                 if (StringUtils.isEmpty(existing.getNiceName()) && StringUtils.isNotEmpty(niceName)) {
