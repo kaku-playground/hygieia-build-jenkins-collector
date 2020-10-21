@@ -170,11 +170,13 @@ public class HudsonCollectorTask extends CollectorTask<HudsonCollector> {
         }
         List<HudsonJob> stateChangeJobList = new ArrayList<>();
         for (HudsonJob job : existingJobs) {
-            if ((job.isEnabled() && !uniqueIDs.contains(job.getId())) ||  // if it was enabled but not on a dashboard
-                    (!job.isEnabled() && uniqueIDs.contains(job.getId()))) { // OR it was disabled and now on a dashboard
-                job.setEnabled(uniqueIDs.contains(job.getId()));
-                stateChangeJobList.add(job);
-            }
+//            if ((job.isEnabled() && !uniqueIDs.contains(job.getId())) ||  // if it was enabled but not on a dashboard
+//                    (!job.isEnabled() && uniqueIDs.contains(job.getId()))) { // OR it was disabled and now on a dashboard
+//                job.setEnabled(uniqueIDs.contains(job.getId()));
+//                stateChangeJobList.add(job);
+//            }
+            job.setEnabled(true);
+            stateChangeJobList.add(job);
         }
         if (!CollectionUtils.isEmpty(stateChangeJobList)) {
             hudsonJobRepository.save(stateChangeJobList);
@@ -226,6 +228,8 @@ public class HudsonCollectorTask extends CollectorTask<HudsonCollector> {
                               Map<HudsonJob, Map<HudsonClient.jobData, Set<BaseModel>>> dataByJob) {
         long start = System.currentTimeMillis();
         count.set(0);
+
+        LOG.info("**** EnabledJobs.count:{}", enabledJobs.size());
 
         for (HudsonJob job : enabledJobs) {
             if (job.isPushed()) continue;
